@@ -672,3 +672,27 @@ may consider it more useful to permit linking proprietary applications with
 the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <https://www.gnu.org/licenses/why-not-lgpl.html>.
+
+
+
+
+$ cat <<-EOF > ~/.git-coauthors
+{
+  "coauthors": {
+    "nk": {
+      "name": "Nahom Ketema",
+      "email": "nketema1@gmail.com"
+    },
+    "ra": {
+      "name": "Raekwon Adams-Rodgers",
+      "email": "adamsrodgers@etsu.edu"
+    },
+     "tj": {
+     "name": "Tinsae Dejene",
+     "email": "tens2009et@gmail.com"
+    }
+    
+  }
+}
+EOF
+
