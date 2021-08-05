@@ -1,26 +1,28 @@
 {%extends "layout.html"%}
 {%block content%}
-
-{%for house in data%}
-<script>
-    function more_details(){
-        //console.log("hello_world");
-        //var test= "{redirect(url_for('about'))}";
-        //var data= "{{house['address']}}";
-        console.log("house");
+<h1 align="center">Search Results</h1>
+<style>
+    body{
+        background-image: url('../static/images/loginImg.jpg');
+        background-size: cover;
+        background-repeat: no-repeat; 
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
     }
-</script>
+</style>
+
 <div class="house-list">
-    <div class="house-view" onclick="more_details()">
-        <img src="{{house['photos'][0]}}" alt="House image" style="width:300px;height:300px;">
+{%for house in data%}
+    <div class="house-view">
+        <img src="{{house['photos'][0]}}" class="card-img-top" alt="House image" style="width:300px;height:300px;">
         <br>
-        <p1>{{house['address']}}</p1>
+        <h5>{{house['address']}}</h5>
         <br>
         <a href="/search/display/{{house['movepal_id']}}">More information</a>
     </div>
     <!--<br>-->
-</div>
 {%endfor%}
-
+</div>
 
 {%endblock content%}

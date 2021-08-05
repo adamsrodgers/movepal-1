@@ -3,15 +3,36 @@
 
 {%if login_status%}
 <style>
+    body{
+        background-image: url('../static/images/loginImg.jpg');
+        background-size: cover;
+        background-repeat: no-repeat; 
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        
+    }
     .searchbox{
-        /*background: rgb(0,0,0);*/
+        /*background-color: white;*/
+        border-radius: 10px;
+        border:2px solid #e3e0d8   ; 
+        padding:10px;
+        background-color: #e3e0d8; opacity: 1; background-image: radial-gradient(#31CFEC 1px, transparent 0.5px), radial-gradient(#31CFEC 0.5px, #e3e0d8 0.5px); background-size: 20px 20px; background-position: 0 0,10px 10px;
+       
+    }
+    .content-section{
+        padding:25px; 
+       /* padding-left:150px;*/
+        align-content: center;
+        margin:0 auto;
+        
     }
 
 
 </style>
 <div class="content-section">
-    <div class="searchbox">
-        <form method="POST" action="">
+    <div class="searchbox ">
+        <form method="POST" action="" >
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Find Houses For Sale</legend>

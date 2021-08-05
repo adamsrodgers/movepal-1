@@ -8,9 +8,9 @@ from forms import RegistrationForm, LoginForm, SearchForm
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_bcrypt import Bcrypt
-from api import for_sale_list, get_attom_data, parse_for_sale_list#######################testing
+from api import for_sale_list, get_attom_data, parse_for_sale_list, save_house#######################testing
 import pandas as pd
-#from SQLAlchemy import create_engine
+from sqlalchemy import create_engine
 from api_output import for_sale_list_data
 
 
@@ -21,8 +21,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 login_status=False #THIS GETS TURNED TO TRUE ONCE THE USER LOGS IN
 house_list={} #THIS IS WHERE THE PARSED HOUSE SEARCH GETS STORED
 
-#house_list=parse_for_sale_list(for_sale_list_data)#TESTING
-#house_list[0]=get_attom_data(house_list[0])#TESTING
+##############
+house_list=parse_for_sale_list(for_sale_list_data)#TESTING
+house_list[0]=get_attom_data(house_list[0])#TESTING
+##############
 
 bcrypt = Bcrypt(app)
 
@@ -41,10 +43,6 @@ db.create_all()
 
 
 
-'''
-class SavedHouses(db.Model):
-    pass
-'''
 
 @app.route("/")
 def home_page():
@@ -60,9 +58,9 @@ def register():
             password=bcrypt.generate_password_hash(
                 form.password.data).decode('utf-8'))
         
-#         pw_hash =generate_password_hash(form.password.data, method='sha256')
-        #pw_hash = flask_bcrypt.generate_password_hash(form.password.data)
-#         user = User(username=form.username.data, email=form.email.data, password = pw_hash )
+            #pw_hash =generate_password_hash(form.password.data, method='sha256')
+            #pw_hash = flask_bcrypt.generate_password_hash(form.password.data)
+            #user = User(username=form.username.data, email=form.email.data, password = pw_hash )
         try:
             db.session.add(user)
             db.session.commit()
@@ -82,7 +80,7 @@ def login():
         if user:
             if bcrypt.check_password_hash(user.password, form.password.data):
                 flash('Logged in successfully!', category='success')
-#                login_user(my_user, remember=form.remember.data)
+                #login_user(my_user, remember=form.remember.data)
 
                 global login_status
                 login_status=True
@@ -110,8 +108,6 @@ def about():
 @app.route("/search", methods=['GET', 'POST'])
 def search():
     form=SearchForm()
-    #print(form.state.data)
-    #print(form.maximum_hoa.data)
     if(form.state.data != None):
         querystring={}
         querystring["offset"]="0"
@@ -134,14 +130,9 @@ def search():
             querystring["baths_max"]=str(form.maximum_baths.data)
         if(form.maximum_hoa.data != None):
             querystring["hoa_max"]=str(form.maximum_hoa.data)
-        #print(querystring)
-        global house_list
-        house_list=for_sale_list(querystring)
-        #print(house_list)
-        #house_list=parse_for_sale_list(for_sale_list_data)
-        #print(house_list)
-        #return redirect(url_for('display_search', data=house_list))
-        return redirect(url_for('display_search'))#, data=house_list
+        #global house_list
+        #house_list=for_sale_list(querystring)
+        return redirect(url_for('display_search'))
     return render_template('search_houses.html', form=form, login_status=login_status)
 
 @app.route("/search/display")
@@ -150,23 +141,16 @@ def display_search():
 
 @app.route("/search/display/<movepal_id>")
 def more_information(movepal_id):
-    house_list[int(movepal_id)]=get_attom_data(house_list[int(movepal_id)])
+    #house_list[int(movepal_id)]=get_attom_data(house_list[int(movepal_id)])
     return render_template('more_information.html', login_status=login_status, data=house_list[int(movepal_id)])
-'''get_attom_data(house_list[int(movepal_id)])'''
+#get_attom_data(house_list[int(movepal_id)])
 
 @app.route("/saved")
 def saved():
     #to be changed
     return redirect(url_for('home_page'))
-'''
-@app.route("/home_logged")
-def home_logged():
-    return render_template("home_logged.html")
-'''
 
 
     
 if (__name__ == "__main__"):
     app.run(debug=True, host="0.0.0.0")
-#0.0.0.0")
-#a

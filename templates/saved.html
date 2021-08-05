@@ -1,4 +1,24 @@
 {%extends "layout.html"%}
 {%block content%}
-<h1>This is to be done</h1>
+{%for house in data%}
+<script>
+    function more_details(){
+        //console.log("hello_world");
+        //var test= "{redirect(url_for('about'))}";
+        //var data= "{{house['address']}}";
+        console.log("house");
+    }
+</script>
+<div class="house-list card">
+    <div class="house-view" onclick="more_details()">
+        <img src="{{house['photos'][0]}}" class="card-img-top" alt="House image" style="width:300px;height:300px;">
+        <br>
+        <p1>{{house['address']}}</p1>
+        <br>
+        <a href="/search/display/{{house['movepal_id']}}">More information</a>
+    </div>
+    <!--<br>-->
+</div>
+{%endfor%}
+
 {%endblock content%}
