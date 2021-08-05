@@ -33,4 +33,20 @@ USELESS JUNK BELOW: Kept in case it ever is needed
         else:
             attom_address += address[counter]
         counter += 1
+        
+        
+        
+        
+        
+                    {% if form.city.errors %}
+                        <!--   -->
+                        {{form.city(class="form-control form-control-lg is-invalid")}}
+                        <div class="invalid-feedback">
+                            {% for error in form.city.errors%}
+                                <span>{{error}}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{form.city(class="form-control form-control-lg")}}
+                    {% endif %}
 '''

@@ -8,23 +8,24 @@ import requests
 import json
 from os import system, popen
 from api_output import for_sale_list_data, attom_data
-'''
 
-#querystring args: offset(unnecessary),limit(can be fixed),sort,state_code,city,price_min,price_max,beds_min,beds_max,baths_min,baths_max,hoa_max
+#querystring args: offset(unnecessary),limit(set to 10),sort,state_code,city,price_min,price_max,beds_min,beds_max,baths_min,baths_max,hoa_max
 
-querystring = {"offset":"0","limit":"42","state_code":"OR","city":"Milwaukie","sort":"newest"}
+#querystring = {"offset":"0","limit":"42","state_code":"OR","city":"Milwaukie","sort":"newest"}
 
 def for_sale_list(querystring):#querystring gets passed as an argument in order to give the users more options
     url = "https://us-real-estate.p.rapidapi.com/for-sale"
     headers = {
         'x-rapidapi-key': "2b7e480369msh22f638972742999p193665jsnfebed1d6da16",
         'x-rapidapi-host': "us-real-estate.p.rapidapi.com"
-        }
+    }
+    
     response = requests.request("GET", url, headers=headers, params=querystring)
     parsed_house_list = parse_for_sale_list(response.json()) #this parses the data and passes it off to get_attom_data
+    return parsed_house_list
 
 #print(for_sale_list(querystring))
-'''
+
 #interesting attom calls below
 #/property/detail   -> in property extended
 #/schools/snapshot  -> to get schools within 5 miles of latitude and longitude
@@ -33,15 +34,23 @@ def for_sale_list(querystring):#querystring gets passed as an argument in order 
 def parse_for_sale_list(data):
     array_of_houses=[]
     house={}
+    id=0
     for address in data["data"]["results"]:
         pictures=[]#makes sure pictures is empty in order to add photo links
         house["address"] = permalink_to_atom_address(address["permalink"])#this address will then be used by the attom api
         for photo in address["photos"]:
             pictures.append(photo["href"])#adds the photos of the house to the dictionary
         house["photos"] = pictures.copy()
+        #print(house["photos"])
         #house["street_view"] = address["location"]["street_view_url"] #maybe for a future update
-        house["latitude"] = address["location"]["address"]["coordinate"]["lat"] 
-        house["longitude"] = address["location"]["address"]["coordinate"]["lon"]
+        #print(address["location"]["address"])
+        try:
+            house["latitude"] = address["location"]["address"]["coordinate"]["lat"] 
+            house["longitude"] = address["location"]["address"]["coordinate"]["lon"]
+        except Exception as e:
+            print(e)
+            house["latitude"]="none"
+            house["longitude"]="none"
         house["county"] = address["location"]["county"]["name"]
         house["list_price"] = address["list_price"]
         house["list_date"] = address["list_date"]
@@ -53,14 +62,17 @@ def parse_for_sale_list(data):
         house["description"]["number_of_garages"] = address["description"]["garage"]
         house["description"]["number_of_bedrooms"] = address["description"]["beds"]
         house["description"]["stories"] = address["description"]["stories"]
+        house["movepal_id"]=id
+        id += 1
         array_of_houses.append(house.copy())
-    for match in array_of_houses:
-        match=get_attom_data(match)########################################################################################################################################
-
-    print(array_of_houses)
     return array_of_houses
 
 def get_attom_data(parsed_house):#add more data to parsed_house from the attom api
+    
+    if(parsed_house["latitude"] == "none"):#error checking
+        parsed_house["school_data"]=[]
+        return parsed_house
+    
     attom_data=[]#this is where all the data from the attom api gets stored and gets used
     parsed_school={}
     attom_api_key='806dc22c9ef6ad5c06d8639c94192e27'    #'2b1e86b638620bf2404521e6e9e1b19e'
@@ -96,7 +108,7 @@ def get_attom_data(parsed_house):#add more data to parsed_house from the attom a
         #parsed_school["collegebound_percent"]=school_detail_json["school"][0]["SchoolDetail"]["collegebound"] #commented out because this only applies to high schools
         parsed_school["poverty_percent"]=school_detail_json["school"][0]["SchoolProfileAndDistrictInfo"]["SchoolDetail"]["Povertylevel"]
         
-        print(parsed_school)
+        #print(parsed_school)
         attom_data.append(parsed_school.copy())
         
         counter += 1
@@ -125,32 +137,23 @@ def permalink_to_atom_address(addr):#this function properly formats the permalin
         i += 1
     return newaddr
 
-
-
-test='7016-SE-Plum-Dr_Milwaukie_OR_97222_M14730-94081'
-y={
-    "address":permalink_to_atom_address(test),
-    "latitude": 45.442865,
-    "longitude": -122.584069
-}
-x=get_attom_data(y)#this works
-print(x)
-
-
-
-#permalink_to_atom_address(test)
-#print(parse_for_sale_list(for_sale_list_data))
-
-#the following code is for testing purposes
-
+def save_house():
+    #dataframe to save houses to database
+    #if user clicks on "like" for a house, add to saved_houses
+    for address in data["data"]["results"]:
+        pass
+        #if
+    
+    col_names = ['photos', 'address','year_built', 'list_price', 'list_date', 'address', 'number_of_bedrooms', 'number_of_bathrooms']
+    df = pd.DataFrame(columns = col_names)
+    df = df.append(dict(zip(df.col_names, array_of_houses)), ignore_index=True) 
+    saved_houses = []
+    
 
 '''
-parsed_house_list=parse_for_sale_list(for_sale_list_data)
-number_of_houses=len(parsed_house_list)
-i=0
-while i<number_of_houses:
-    parsed_house_list[i]=get_attom_data(parsed_house_list[i])
-    i += 1
-    
-print(parsed_house_list)
+test=for_sale_list_data
+x=parse_for_sale_list(test)
+print("/n/n",x,"/n/n")
+y=get_attom_data(x[12])
+print("\n\n",y,"\n\n")
 '''

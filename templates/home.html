@@ -5,8 +5,11 @@
     body {
         background-image: url('../static/images/loginImg.jpg');
         background-size: cover;
-        background-repeat: no-repeat;  
-        
+        background-repeat: no-repeat; 
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+
     }
 
     p.homeHeader{
@@ -32,7 +35,7 @@
     }
    
 
-.footer {
+/* .footer {
   position: fixed;
   left: 0;
   bottom: 0;
@@ -40,8 +43,9 @@
   background-color: black;
   color: white;
   text-align: center;
+   
 }
-
+ */
 </style>
 <link rel="stylesheet" href="../static/css/all.min.css">
 
@@ -63,7 +67,79 @@
 
 
 <!--footer start -->
-<div class="footer">
+
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 title">
+               <h1 class = "logo-text"> <span>Move</span>Pal</h1>
+                <div class="row">
+                    <div class="col-6">
+                         <p>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                            </p>
+                        
+                    </div>
+                    <div class="col-6">
+                      <ul class="list-unstyled">
+                            <h2>More Links</h2>
+                            <li><a href="">Careers</a></li>
+                            <li><a href="">Legal Terms</a></li>
+                            <li><a href="">Privacy Policy</a></li>
+                            <li><a href="">About</a></li>
+                        </ul>
+                    </div>
+                </div>
+<!--                 <ul class="nav">
+                    <li class="nav-item"><a href="" class="nav-link pl-0"><i class="fa fa-facebook fa-lg"></i></a></li>
+                    <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-twitter fa-lg"></i></a></li>
+                    <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-github fa-lg"></i></a></li>
+                    <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-instagram fa-lg"></i></a></li>
+                </ul> -->
+                <br>
+            </div>
+            <div class="col-md-2">
+                <h5 class="text-md-right">Contact Us</h5>
+                <hr>
+            </div>
+            <div class="col-md-5">
+                <form>
+                    <fieldset class="form-group">
+                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <textarea class="form-control" id="exampleMessage" placeholder="Message"></textarea>
+                    </fieldset>
+                    <fieldset class="form-group text-xs-right">
+                        <a href="#">
+                        <button type="button" class="btn btn-secondary-outline btn-lg">Send</button>
+                            
+                        </a>
+                    </fieldset>
+                </form>
+            </div>
+           <div class="socials">
+               <a href="#"><i class="fab fa-facebook"></i></a>
+               <a href="#"><i class="fab fa-instagram"></i></a>
+               <a href="#"><i class="fab fa-twitter"></i></a>
+               <a href="#"><i class="fab fa-pinterest"></i></a>
+               <a href="#"><i class="fab fa-youtube"></i></a>
+
+            
+            
+          </div>
+    <div class="footer-bottom">
+      &copy; movepal.com | Created by: Terris, Nahom, Raekwon, & Tinsae
+    </div>
+        </div>
+    </div>
+</footer>
+
+
+
+<!-- <div class="footer">
   <div class="footer-content">
     <div class="footer-section about">
         <h1 class = "logo-text"> <span>Move</span>Pal</h1>
@@ -113,12 +189,12 @@
                    
         </form>
     </div>
-
-  </div>
-  <div class="footer-bottom">
+ <div class="footer-bottom">
       &copy; movepal.com | Created by: Terris, Nahom, Raekwon, & Tinsae
     </div>
-</div>
+  </div>
+ 
+</div> -->
 <!--footer end  -->
 
 {% endblock content%}

@@ -1,0 +1,80 @@
+{%extends "layout.html"%}
+{%block content%}
+<style>
+    body{
+        background-image: url('../static/images/loginImg.jpg');
+        background-size: cover;
+        background-repeat: no-repeat; 
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+</style>
+
+<h1 style="text-align: center;margin-left:50%;">{{data['address']}}</h1>
+
+<div class="images">
+    {%for photo in data['photos']%}
+        <img src={{photo}} alt="picture of house" style="width: 300px;height: 300px;">
+    {%endfor%}
+</div>
+
+<br><br>
+
+<div class="house-details">
+    <h3>General Information</h3>
+    <br>
+    <p1>List Price: {{data['list_price']}}</p1>
+    <br>
+    <p1>List date: {{data['list_date']}}</p1>
+    <br>
+    <p1>County: {{data['county']}}</p1>
+</div>
+
+<br>
+
+<div class="house-description">
+    <h3>House Description</h3>
+    <br>
+    <p1>Year Built: {{data['description']['year_built']}}</p1>
+    <br>
+    <p1>Lot size(in sqft): {{data['description']['lot_sqft']}}</p1>
+    <br>
+    <p1>House size(in sqft): {{data['description']['house_sqft']}}</p1>
+    <br>
+    <p1>Number of bathrooms: {{data['description']['number_of_bathrooms']}}</p1>
+    <br>
+    <p1>Number of bedrooms: {{data['description']['number_of_bedrooms']}}</p1>
+    <br>
+    <p1>Number of garages: {{data['description']['number_of_garages']}}</p1>
+    <br>
+    <p1>Number of stories: {{data['description']['stories']}}</p1>
+</div>
+
+<br>
+
+<div class="school-description">
+    <h3>Nearby Schools</h3>
+    <br>
+    {%for school in data['school_data']%}
+        <h6 style="color:green;">{{school['name']}}</h6>
+        <p1>Lowest grade level: {{school['min_grade']}}</p1>
+        <br>
+        <p1>Highest grade level: {{school['max_grade']}}</p1>
+        <br>
+        <p1>School Type: {{school['type']}}</p1>
+        <br>
+        <p1>School Address: {{school['address']}}</p1>
+        <br>
+        <p1>Distance of school from this house: {{school['distance_from_house']}}</p1>
+        <br>
+        <p1>Name of School District: {{school['district_name']}}</p1>
+        <br>
+        <p1>School Website: <a href="{{school['school_webpage']}}">{{school['school_webpage']}}</a></p1>
+        <br>
+        <p1>Poverty Percent: {{school['poverty_percent']}}</p1>
+        <br>
+        <br>
+    {%endfor%}
+</div>
+{%endblock content%}
